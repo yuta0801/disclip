@@ -23,7 +23,7 @@ export const ThreadsList = () => {
         {threads.map((thread) => (
           <li key={thread.id}>
             <Link href="/threads/[threadId]" as={`/threads/${thread.id}`}>
-              <a>{thread.name}</a>
+              <a>{thread.title}</a>
             </Link>
           </li>
         ))}
