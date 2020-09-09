@@ -1,22 +1,35 @@
 import React from "react"
+import { LabeledTextField } from "app/components/LabeledTextField"
+import { Form, FORM_ERROR } from "app/components/Form"
+import { CreateThreadInput, CreateThreadInputType } from "../validations"
 
 type ThreadFormProps = {
-  initialValues: any
-  onSubmit: React.FormEventHandler<HTMLFormElement>
+  onSubmit(values: CreateThreadInputType): Promise<void>
 }
 
-const ThreadForm = ({ initialValues, onSubmit }: ThreadFormProps) => {
+const ThreadForm = (props: ThreadFormProps) => {
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault()
-        onSubmit(event)
+    <Form<CreateThreadInputType>
+      submitText="作成"
+      schema={CreateThreadInput}
+      onSubmit={async (values) => {
+        try {
+          await props.onSubmit(values)
+        } catch (error) {
+          if (error.name === "AuthenticationError") {
+            return { [FORM_ERROR]: "Sorry, those credentials are invalid" }
+          } else {
+            return {
+              [FORM_ERROR]:
+                "Sorry, we had an unexpected error. Please try again. - " + error.toString(),
+            }
+          }
+        }
       }}
     >
-      <div>Put your form fields here. But for now, just click submit</div>
-      <div>{JSON.stringify(initialValues)}</div>
-      <button>Submit</button>
-    </form>
+      <LabeledTextField name="title" label="タイトル" placeholder="タイトル" />
+      <LabeledTextField name="message" label="メッセージ" placeholder="メッセージ" />
+    </Form>
   )
 }
 

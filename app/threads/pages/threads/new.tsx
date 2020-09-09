@@ -17,15 +17,12 @@ const NewThreadPage: BlitzPage = () => {
         <h1>Create New Thread</h1>
 
         <ThreadForm
-          initialValues={{}}
-          onSubmit={async () => {
-            try {
-              const thread = await createThread({ data: { name: "MyName" } })
-              alert("Success!" + JSON.stringify(thread))
-              router.push("/threads/[threadId]", `/threads/${thread.id}`)
-            } catch (error) {
-              alert("Error creating thread " + JSON.stringify(error, null, 2))
-            }
+          onSubmit={async ({ title, message }) => {
+            const thread = await createThread({
+              data: { title, responses: { create: [{ content: message }] } },
+            })
+            alert("Success!" + JSON.stringify(thread))
+            router.push("/threads/[threadId]", `/threads/${thread.id}`)
           }}
         />
 
