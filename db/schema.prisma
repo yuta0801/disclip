@@ -43,3 +43,12 @@ model Thread {
   updatedAt DateTime @updatedAt
   name      String   
 }
+
+model Response {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String   
+  thread    Thread   @relation(fields: [threadId], references: [id])
+  threadId  Int      
+}
