@@ -12,30 +12,23 @@ export const EditThread = () => {
 
   return (
     <div>
-      <h1>Edit Thread {thread.id}</h1>
-      <pre>{JSON.stringify(thread, null, 2)}</pre>
+      <h1>編集：{thread.title}</h1>
 
       <ThreadForm
         submitText="更新"
         initialValues={{ title: thread.title, message: thread.responses[0].content }}
         onSubmit={async ({ title, message }) => {
-          try {
-            const updated = await updateThread({
-              where: { id: thread.id },
-              data: {
-                title,
-                responses: {
-                  update: [{ where: { id: thread.responses[0].id }, data: { content: message } }],
-                },
+          const updated = await updateThread({
+            where: { id: thread.id },
+            data: {
+              title,
+              responses: {
+                update: [{ where: { id: thread.responses[0].id }, data: { content: message } }],
               },
-            })
-            mutate(updated)
-            alert("Success!" + JSON.stringify(updated))
-            router.push("/threads/[threadId]", `/threads/${updated.id}`)
-          } catch (error) {
-            console.log(error)
-            alert("Error creating thread " + JSON.stringify(error, null, 2))
-          }
+            },
+          })
+          mutate(updated)
+          router.push("/threads/[threadId]", `/threads/${updated.id}`)
         }}
       />
     </div>

@@ -14,7 +14,7 @@ const NewThreadPage: BlitzPage = () => {
       </Head>
 
       <main>
-        <h1>Create New Thread</h1>
+        <h1>スレッドを作成</h1>
 
         <ThreadForm
           submitText="作成"
@@ -22,7 +22,6 @@ const NewThreadPage: BlitzPage = () => {
             const thread = await createThread({
               data: { title, responses: { create: [{ content: message }] } },
             })
-            alert("Success!" + JSON.stringify(thread))
             router.push("/threads/[threadId]", `/threads/${thread.id}`)
           }}
         />
