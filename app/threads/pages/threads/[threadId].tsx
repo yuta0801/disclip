@@ -11,8 +11,7 @@ export const Thread = () => {
 
   return (
     <div>
-      <h1>Thread {thread.id}</h1>
-      <pre>{JSON.stringify(thread, null, 2)}</pre>
+      <h1>{thread.title}</h1>
 
       <Link href="/threads/[threadId]/edit" as={`/threads/${thread.id}/edit`}>
         <a>Edit</a>
@@ -29,6 +28,10 @@ export const Thread = () => {
       >
         Delete
       </button>
+
+      {thread.responses.map((response, index) => (
+        <p key={index}>{response.content}</p>
+      ))}
     </div>
   )
 }
