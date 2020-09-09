@@ -1,17 +1,20 @@
 import React from "react"
 import { LabeledTextField } from "app/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/components/Form"
-import { CreateThreadInput, CreateThreadInputType } from "../validations"
+import { Thread, ThreadType } from "../validations"
 
 type ThreadFormProps = {
-  onSubmit(values: CreateThreadInputType): Promise<void>
+  submitText: string
+  initialValues?: Partial<ThreadType>
+  onSubmit(values: ThreadType): Promise<void>
 }
 
 const ThreadForm = (props: ThreadFormProps) => {
   return (
-    <Form<CreateThreadInputType>
-      submitText="作成"
-      schema={CreateThreadInput}
+    <Form<ThreadType>
+      submitText={props.submitText}
+      schema={Thread}
+      initialValues={props.initialValues}
       onSubmit={async (values) => {
         try {
           await props.onSubmit(values)

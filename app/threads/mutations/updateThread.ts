@@ -10,9 +10,7 @@ export default async function updateThread(
   { where, data }: UpdateThreadInput,
   ctx: { session?: SessionContext } = {}
 ) {
-  ctx.session!.authorize()
-
-  const thread = await db.thread.update({ where, data })
+  const thread = await db.thread.update({ where, data, include: { responses: true } })
 
   return thread
 }

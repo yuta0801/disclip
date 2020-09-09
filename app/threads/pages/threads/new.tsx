@@ -17,6 +17,7 @@ const NewThreadPage: BlitzPage = () => {
         <h1>Create New Thread</h1>
 
         <ThreadForm
+          submitText="作成"
           onSubmit={async ({ title, message }) => {
             const thread = await createThread({
               data: { title, responses: { create: [{ content: message }] } },

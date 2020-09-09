@@ -13,15 +13,21 @@ export const EditThread = () => {
   return (
     <div>
       <h1>Edit Thread {thread.id}</h1>
-      <pre>{JSON.stringify(thread)}</pre>
+      <pre>{JSON.stringify(thread, null, 2)}</pre>
 
       <ThreadForm
-        initialValues={thread}
-        onSubmit={async () => {
+        submitText="更新"
+        initialValues={{ title: thread.title, message: thread.responses[0].content }}
+        onSubmit={async ({ title, message }) => {
           try {
             const updated = await updateThread({
               where: { id: thread.id },
-              data: { name: "MyNewName" },
+              data: {
+                title,
+                responses: {
+                  update: [{ where: { id: thread.responses[0].id }, data: { content: message } }],
+                },
+              },
             })
             mutate(updated)
             alert("Success!" + JSON.stringify(updated))

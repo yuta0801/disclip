@@ -1,7 +1,7 @@
 import * as z from "zod"
 
-export const CreateThreadInput = z.object({
+export const Thread = z.object({
   title: z.string(),
   message: z.string(),
 })
-export type CreateThreadInputType = z.infer<typeof CreateThreadInput>
+export type ThreadType = z.infer<typeof Thread>
