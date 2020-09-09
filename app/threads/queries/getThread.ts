@@ -3,17 +3,14 @@ import db, { FindOneThreadArgs } from "db"
 
 type GetThreadInput = {
   where: FindOneThreadArgs["where"]
-  // Only available if a model relationship exists
-  // include?: FindOneThreadArgs['include']
+  include?: FindOneThreadArgs["include"]
 }
 
 export default async function getThread(
-  { where /* include */ }: GetThreadInput,
+  { where }: GetThreadInput,
   ctx: { session?: SessionContext } = {}
 ) {
-  ctx.session!.authorize()
-
-  const thread = await db.thread.findOne({ where })
+  const thread = await db.thread.findOne({ where, include: { responses: true } })
 
   if (!thread) throw new NotFoundError()
 
