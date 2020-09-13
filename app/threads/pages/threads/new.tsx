@@ -18,9 +18,9 @@ const NewThreadPage: BlitzPage = () => {
 
         <ThreadForm
           submitText="作成"
-          onSubmit={async ({ title, message }) => {
+          onSubmit={async ({ title, messages }) => {
             const thread = await createThread({
-              data: { title, responses: { create: [{ content: message }] } },
+              data: { title, responses: { create: messages.map((content) => ({ content })) } },
             })
             router.push("/threads/[threadId]", `/threads/${thread.id}`)
           }}

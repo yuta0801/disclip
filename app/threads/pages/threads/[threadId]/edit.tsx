@@ -16,14 +16,21 @@ export const EditThread = () => {
 
       <ThreadForm
         submitText="更新"
-        initialValues={{ title: thread.title, message: thread.responses[0].content }}
-        onSubmit={async ({ title, message }) => {
+        initialValues={{
+          title: thread.title,
+          messages: thread.responses.map(({ content }) => content),
+        }}
+        onSubmit={async ({ title, messages }) => {
           const updated = await updateThread({
             where: { id: thread.id },
             data: {
               title,
               responses: {
-                update: [{ where: { id: thread.responses[0].id }, data: { content: message } }],
+                upsert: messages.map((message, index) => ({
+                  where: { id: thread.responses[index]?.id },
+                  create: { content: message },
+                  update: { content: message },
+                })),
               },
             },
           })

@@ -2,6 +2,8 @@ import React from "react"
 import { LabeledTextField } from "app/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/components/Form"
 import { Thread, ThreadType } from "../validations"
+import arrayMutators from "final-form-arrays"
+import { FieldArray } from "react-final-form-arrays"
 
 type ThreadFormProps = {
   submitText: string
@@ -12,6 +14,7 @@ type ThreadFormProps = {
 const ThreadForm = (props: ThreadFormProps) => {
   return (
     <Form<ThreadType>
+      mutators={{ ...arrayMutators }}
       submitText={props.submitText}
       schema={Thread}
       initialValues={props.initialValues}
@@ -31,7 +34,23 @@ const ThreadForm = (props: ThreadFormProps) => {
       }}
     >
       <LabeledTextField name="title" label="タイトル" placeholder="タイトル" />
-      <LabeledTextField name="message" label="メッセージ" placeholder="メッセージ" />
+      <FieldArray name="messages">
+        {({ fields }) => (
+          <div>
+            {fields.map((name, index) => (
+              <div key={name}>
+                <LabeledTextField name={name} label="メッセージ" placeholder="メッセージ" />
+                <button type="button" onClick={() => fields.remove(index)}>
+                  Remove
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={() => fields.push(undefined)}>
+              Add
+            </button>
+          </div>
+        )}
+      </FieldArray>
     </Form>
   )
 }
