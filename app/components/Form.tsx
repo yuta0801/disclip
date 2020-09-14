@@ -11,6 +11,7 @@ type FormProps<FormValues> = {
   onSubmit: FinalFormProps<FormValues>["onSubmit"]
   initialValues?: FinalFormProps<FormValues>["initialValues"]
   schema?: z.ZodType<any, any>
+  mutators?: FinalFormProps<FormValues>["mutators"]
 } & Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit">
 
 export function Form<FormValues extends Record<string, unknown>>({
@@ -19,10 +20,12 @@ export function Form<FormValues extends Record<string, unknown>>({
   schema,
   initialValues,
   onSubmit,
+  mutators,
   ...props
 }: FormProps<FormValues>) {
   return (
     <FinalForm<FormValues>
+      mutators={mutators}
       initialValues={initialValues}
       validate={(values) => {
         if (!schema) return

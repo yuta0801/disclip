@@ -3,7 +3,7 @@
 
 datasource db {
   provider = ["sqlite", "postgres"]
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -38,20 +38,18 @@ model Session {
 }
 
 model Thread {
-  id        Int        @default(autoincrement()) @id
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  title     String
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  thread    String   
   responses Response[]
 }
 
 model Response {
-  @@id([threadId, order])
-
+  id        Int      @default(autoincrement()) @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  content   String
+  content   String   
   thread    Thread   @relation(fields: [threadId], references: [id])
-  threadId  Int
-  order     Int
+  threadId  Int      
 }
