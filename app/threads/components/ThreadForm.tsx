@@ -1,22 +1,22 @@
 import React from "react"
 import { LabeledTextField } from "app/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/components/Form"
-import { Thread, ThreadType } from "../validations"
+import { ThreadInput, ThreadInputType } from "../validations"
 import arrayMutators from "final-form-arrays"
 import { FieldArray } from "react-final-form-arrays"
 
 type ThreadFormProps = {
   submitText: string
-  initialValues?: Partial<ThreadType>
-  onSubmit(values: ThreadType): Promise<void>
+  initialValues?: Partial<ThreadInputType>
+  onSubmit(values: ThreadInputType): Promise<void>
 }
 
 const ThreadForm = (props: ThreadFormProps) => {
   return (
-    <Form<ThreadType>
+    <Form<ThreadInputType>
       mutators={{ ...arrayMutators }}
       submitText={props.submitText}
-      schema={Thread}
+      schema={ThreadInput}
       initialValues={props.initialValues}
       onSubmit={async (values) => {
         try {
