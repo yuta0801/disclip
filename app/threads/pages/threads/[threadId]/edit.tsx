@@ -27,8 +27,8 @@ export const EditThread = () => {
               title,
               responses: {
                 upsert: messages.map((message, index) => ({
-                  where: { id: thread.responses[index]?.id },
-                  create: { content: message },
+                  where: { threadId_order: { threadId: thread.id, order: index } },
+                  create: { content: message, order: index },
                   update: { content: message },
                 })),
               },
