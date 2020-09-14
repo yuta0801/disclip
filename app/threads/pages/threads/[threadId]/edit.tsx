@@ -21,19 +21,7 @@ export const EditThread = () => {
           messages: thread.responses.map(({ content }) => content),
         }}
         onSubmit={async ({ title, messages }) => {
-          const updated = await updateThread({
-            where: { id: thread.id },
-            data: {
-              title,
-              responses: {
-                upsert: messages.map((message, index) => ({
-                  where: { threadId_order: { threadId: thread.id, order: index } },
-                  create: { content: message, order: index },
-                  update: { content: message },
-                })),
-              },
-            },
-          })
+          const updated = await updateThread(thread.id, { title, messages })
           mutate(updated)
           router.push("/threads/[threadId]", `/threads/${updated.id}`)
         }}

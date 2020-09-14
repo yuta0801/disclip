@@ -1,14 +1,19 @@
 import { SessionContext } from "blitz"
 import db, { ThreadCreateArgs } from "db"
+import { ThreadInputType } from "../validations"
 
-type CreateThreadInput = {
-  data: ThreadCreateArgs["data"]
-}
 export default async function createThread(
-  { data }: CreateThreadInput,
+  { title, messages }: ThreadInputType,
   ctx: { session?: SessionContext } = {}
 ) {
-  const thread = await db.thread.create({ data })
+  const thread = await db.thread.create({
+    data: {
+      title,
+      responses: {
+        create: messages.map((content, index) => ({ content, order: index })),
+      },
+    },
+  })
 
   return thread
 }

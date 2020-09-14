@@ -1,17 +1,10 @@
 import { SessionContext } from "blitz"
-import db, { ThreadDeleteArgs } from "db"
+import db from "db"
 
-type DeleteThreadInput = {
-  where: ThreadDeleteArgs["where"]
-}
-
-export default async function deleteThread(
-  { where }: DeleteThreadInput,
-  ctx: { session?: SessionContext } = {}
-) {
+export default async function deleteThread(id: number, ctx: { session?: SessionContext } = {}) {
   ctx.session!.authorize()
 
-  const thread = await db.thread.delete({ where })
+  const thread = await db.thread.delete({ where: { id } })
 
   return thread
 }

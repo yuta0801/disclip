@@ -21,7 +21,7 @@ export const Thread = () => {
         type="button"
         onClick={async () => {
           if (window.confirm("This will be deleted")) {
-            await deleteThread({ where: { id: thread.id } })
+            await deleteThread(thread.id)
             router.push("/threads")
           }
         }}
